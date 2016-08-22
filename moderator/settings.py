@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'axes',
     'session_csrf',
     'raven.contrib.django.raven_compat',
+    'django_auth0',
     # Project specific apps
     'moderator.moderate'
 ]
@@ -64,6 +65,7 @@ CONTEXT_PROCESSORS = (
     'django.template.context_processors.static',
     'django.template.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
+    'django_auth0.context_processors.auth0',
 )
 
 TEMPLATES = [
@@ -109,6 +111,7 @@ BASE_PASSWORD_HASHERS = (
 )
 
 AUTHENTICATION_BACKENDS = (
+    'django_auth0.auth_backend.Auth0Backend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -180,7 +183,27 @@ RAVEN_CONFIG = config('RAVEN_CONFIG', cast=json.loads, default='{}')
 # # Django-CSP
 CSP_DEFAULT_SRC = (
     "'self'",
+    "'unsafe-inline'",
     'https://*.mozilla.org',
     'https://*.mozilla.net',
     'https://mozillians.org',
+    'http://*.auth0.com',
+    'https://*.auth0.com',
 )
+
+CSP_IMG_SRC = (
+    "'self'",
+    'data:',
+    'https://*.mozilla.org',
+    'https://*.mozilla.net',
+    'https://mozillians.org',
+    'http://*.auth0.com',
+    'https://*.auth0.com',
+)
+
+# Auth0 config
+AUTH0_CLIENT_ID = config('AUTH0_CLIENT_ID', default='')
+AUTH0_SECRET = config('AUTH0_SECRET', default='')
+AUTH0_DOMAIN = config('AUTH0_DOMAIN', default='')
+AUTH0_CALLBACK_URL = config('AUTH0_CALLBACK_URL')
+AUTH0_SUCCESS_URL = config('AUTH0_SUCCESS_URL')

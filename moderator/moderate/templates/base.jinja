@@ -18,7 +18,10 @@
 
   </head>
 
-  <body class="sky">
+  <body class="sky"
+        data-auth0_client_id={{ AUTH0_CLIENT_ID }}
+        data-auth0_domain={{ AUTH0_DOMAIN }}
+        data-auth0_callback_url={{ AUTH0_CALLBACK_URL }}>
     <div id="outer-wrapper">
       <div id="wrapper">
 
@@ -28,9 +31,14 @@
               <nav id="nav-main" role="navigation">
                 <a href="{{ url('archive') }}">Event archive</a>
               </nav>
+              <nav id="nav-main" role="navigation">
+                <a href="{{ url('logout') }}">Logout</a>
+              </nav>
             {% else %}
               <div class="login">
-                Login
+                <button class="button">
+                  Login
+                </button>
               </div>
             {% endif %}
 
@@ -89,10 +97,12 @@
 
     </div>
 
+    <script src="https://mozorg.cdn.mozilla.net/tabzilla/tabzilla.js"></script>
+    <script src="https://cdn.auth0.com/js/lock/10.0/lock.min.js"></script>
     <script src="/static/js/libs/jquery-1.11.2.min.js"></script>
     <script src="/static/js/site.js"></script>
     <script src="/static/js/nav-main-resp.js"></script>
-    <script src="https://mozorg.cdn.mozilla.net/tabzilla/tabzilla.js"></script>
+    <script src="/static/js/auth.js"></script>
     <script src="/static/js/app.js"></script>
     {% block js %}{% endblock %}
   </body>
