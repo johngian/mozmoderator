@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django_sha2',
     'session_csrf',
     'raven.contrib.django.raven_compat',
+    'mozilla_django_oidc',
     # Project specific apps
     'moderator.moderate'
 ]
@@ -110,6 +111,7 @@ PASSWORD_HASHERS = [
 ]
 
 AUTHENTICATION_BACKENDS = (
+    'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -178,10 +180,19 @@ if DEBUG:
 # Sentry support
 RAVEN_CONFIG = config('RAVEN_CONFIG', cast=json.loads, default='{}')
 
-# # Django-CSP
+# Django-CSP
 CSP_DEFAULT_SRC = (
     "'self'",
     'https://*.mozilla.org',
     'https://*.mozilla.net',
     'https://mozillians.org',
 )
+
+# Django OIDC
+
+OIDC_OP_AUTHORIZATION_ENDPOINT = config('OIDC_OP_AUTHORIZATION_ENDPOINT')
+OIDC_OP_TOKEN_ENDPOINT = config('OIDC_OP_TOKEN_ENDPOINT')
+OIDC_OP_USER_ENDPOINT = config('OIDC_OP_USER_ENDPOINT')
+OIDC_OP_CLIENT_ID = config('OIDC_OP_CLIENT_ID')
+OIDC_OP_CLIENT_SECRET = config('OIDC_OP_CLIENT_SECRET')
+OIDC_RP_CLIENT_SECRET_ENCODED = config('OIDC_RP_CLIENT_SECRET_ENCODED', cast=bool)
